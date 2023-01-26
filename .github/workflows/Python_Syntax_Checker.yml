@@ -1,5 +1,5 @@
 name: Python Syntax Checker
-on: [ pull_request, push ]
+on: [ push ]
 jobs:
   Python-lint:
     runs-on: ubuntu-latest
