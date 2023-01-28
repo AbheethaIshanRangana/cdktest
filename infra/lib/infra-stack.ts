@@ -27,16 +27,54 @@ export class InfraStack extends cdk.Stack {
     });
 
     // Create VPC 
-    const vpc = new ec2.Vpc(this, `AppVPC-${StackEnv}`, {
+    const vpc = new ec2.Vpc(this, `appvpc-${StackEnv}`, {
       maxAzs: 3     // 3 Azs in region
     });
 
     // Application Load Balancer
-    const alb = new cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(this, `AppALB-${StackEnv}`, {
+    const alb = new cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(this, `appalb-${StackEnv}`, {
       vpc: vpc,
       vpcSubnets: { subnets: vpc.publicSubnets},
       internetFacing: true
     });
+
+    // TargetGroup
+    const targetGroupHttp = new cdk.aws_elasticloadbalancingv2.ApplicationTargetGroup(this, `targetgroup-http-${StackEnv}`, {
+      port: 80,
+      vpc: vpc,
+      protocol: cdk.aws_elasticloadbalancingv2.ApplicationProtocol.HTTP,
+      targetType: cdk.aws_elasticloadbalancingv2.TargetType.IP
+    });
+
+    // Target Group Health Check
+    targetGroupHttp.configureHealthCheck({
+      path: "/health",
+      protocol: cdk.aws_elasticloadbalancingv2.Protocol.HTTP
+    });
+
+    // Allow HTTP connections
+    const listener = alb.addListener(`listener-http-${StackEnv}`, {
+      open: true,
+      port: 80
+    });
+
+    listener.addTargetGroups(`alb-listener-targetgroup-${StackEnv}`, {
+      targetGroups: [targetGroupHttp]
+    });
+
+    // Security Group
+    const albsg = new ec2.SecurityGroup(this, `appalbsg-${StackEnv}`, {
+      vpc: vpc,
+      allowAllOutbound: true
+    });
+
+    albsg.addIngressRule(
+      ec2.Peer.anyIpv4(),
+      ec2.Port.tcp(80),
+      "Allow http traffic"
+    );
+
+    alb.addSecurityGroup(albsg);
 
   }
 }
