@@ -9,7 +9,7 @@ on:
 jobs:
 
   docker-build-deploy:
-    name: Deploy 
+    name: Build & Push docker image
     runs-on: ubuntu-latest 
     steps:
       - name: Checkout
@@ -37,6 +37,7 @@ jobs:
           echo "name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
   Deploy-Infra-And-App:
+    name: Deploy application and infrastructure
     needs: [ docker-build-deploy ]
     runs-on: ubuntu-latest
     permissions:
