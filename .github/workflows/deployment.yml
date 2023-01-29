@@ -5,6 +5,17 @@ on:
     branches: [ main ]
   workflow_dispatch:
     branches: [ main ]
+    inputs:
+      env:
+        type: choice
+        default: dev
+        description: Select environment
+        options:
+        - dev
+        - qa
+        - uat 
+        - ppe
+        - prd
 
 jobs:
 
@@ -63,8 +74,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.SECRET_KEY }}
           aws-region: 'us-east-1'
       - name: Bootstrap stack 
-        run: cd infra/ && StackEnv=dev cdk bootstrap 
+        run: cd infra/ && StackEnv=${{ github.event.inputs.env }} cdk bootstrap 
       - name: Synth stack 
-        run: cd infra/ && StackEnv=dev cdk synth 
+        run: cd infra/ && StackEnv=${{ github.event.inputs.env }} cdk synth 
       - name: Deploy stack 
-        run: cd infra/ && StackEnv=dev dek deploy --all --require approval never
+        run: cd infra/ && StackEnv=${{ github.event.inputs.env }} dek deploy --all --require approval never
