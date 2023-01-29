@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@aws-cdk/aws-ec2": "^1.190.0",
+    "@aws-cdk/aws-ecr": "^1.190.0",
     "@aws-cdk/aws-ecs": "^1.190.0",
     "@aws-cdk/aws-ecs-patterns": "^1.190.0",
     "@aws-cdk/aws-elasticloadbalancingv2": "^1.190.0",
