@@ -1,0 +1,27 @@
+name: Python CI 
+on:
+  push:
+    paths:
+      - '**.py'
+jobs:
+  Python-Syntax-Checker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+      - name: Python Syntax Checker
+        uses: cclauss/Find-Python-syntax-errors-action@master
+  Python-Code-Quality-And-Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v1
+      - name: Python Code Quality and Lint 
+        uses: ricardochaves/python-lint@v1.4.0
+  Python-Lint-Annotate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+      - name: Python Lint 
+        uses: marian-code/python-lint-annotate@v3
