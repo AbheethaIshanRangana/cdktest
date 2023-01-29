@@ -69,7 +69,7 @@ jobs:
         #with: 
         #  working-directory: ./infra/
       - name: Install aws-cdk 
-        run: cd infra/ && npm install -g aws-cdk@1.190.0
+        run: cd infra/ && npm install -g aws-cdk@2.62.2
       - name: Configure AWS credentials 
         uses: aws-actions/configure-aws-credentials@master
         with: 
