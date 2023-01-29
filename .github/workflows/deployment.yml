@@ -57,14 +57,15 @@ jobs:
     steps:
       - name: Clone repo
         uses: actions/checkout@v3
-        with:
-          path: infra/
+        #with:
+        #  path: infra/
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: 18
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: cd infra/ && npm ci
+        #uses: bahmutov/npm-install@v1
         #with: 
         #  working-directory: ./infra/
       - name: Configure AWS credentials 
