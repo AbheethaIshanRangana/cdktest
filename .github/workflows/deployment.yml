@@ -1,8 +1,8 @@
 name: Deployment
 
 on: 
-  push: 
-    branches: [ main ]
+  #push: 
+  #  branches: [ main ]
   workflow_dispatch:
     branches: [ main ]
     inputs:
@@ -74,8 +74,8 @@ jobs:
           aws-access-key-id: ${{ secrets.ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.SECRET_KEY }}
           aws-region: 'us-east-1'
-      - name: Bootstrap stack 
-        run: cd infra/ && StackEnv=${{ github.event.inputs.env }} cdk bootstrap 
+      #- name: Bootstrap stack 
+      #  run: cd infra/ && StackEnv=${{ github.event.inputs.env }} cdk bootstrap 
       - name: Synth stack 
         run: cd infra/ && StackEnv=${{ github.event.inputs.env }} cdk synth 
       - name: Deploy stack 
