@@ -81,4 +81,4 @@ jobs:
       - name: Synth stack 
         run: cd infra/ && StackEnv=${{ github.event.inputs.env }} cdk synth 
       - name: Deploy stack 
-        run: cd infra/ && StackEnv=${{ github.event.inputs.env }} dek deploy --all --require approval never
+        run: cd infra/ && StackEnv=${{ github.event.inputs.env }} cdk deploy --all --require approval never
